@@ -6,6 +6,7 @@ function EndForButton({ colorPalette }: { colorPalette: string }) {
       name=":|"
       disabled={false}
       colorPalette={colorPalette}
+      onClick={() => {}}
     />
   )
 }

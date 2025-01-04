@@ -6,6 +6,7 @@ function DummyButton({ colorPalette }: { colorPalette: string }) {
       name=""
       disabled={true}
       colorPalette={colorPalette}
+      onClick={() => {}}
     />
   )
 }

@@ -6,6 +6,7 @@ function ForButton({ colorPalette }: { colorPalette: string }) {
       name="|:"
       disabled={false}
       colorPalette={colorPalette}
+      onClick={() => {}}
     />
   )
 }
