@@ -1,10 +1,11 @@
 import DefaultButton from "../atoms/DefaultButton";
 
-function ChordButton({ name }: {name: string}) {
+function ChordButton({ name, colorPalette }: {name: string, colorPalette: string}) {
   return (
     <DefaultButton
       name={name}
       disabled={false}
+      colorPalette={colorPalette}
     />
   )
 }
