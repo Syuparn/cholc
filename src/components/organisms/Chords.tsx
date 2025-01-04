@@ -1,6 +1,8 @@
 import { Table } from "@chakra-ui/react"
 import ChordButton from "../molecules/ChordButton"
 import DummyButton from "../molecules/DummyButton"
+import ForButton from "../molecules/ForButton"
+import EndForButton from "../molecules/EndForButton"
 
 function Chords() {
   return (
@@ -54,10 +56,10 @@ function Chords() {
             <ChordButton name="Gm" colorPalette="teal" />
           </Table.Cell>
           <Table.Cell>
-            <DummyButton colorPalette="gray"/>
+            <ForButton colorPalette="gray" />
           </Table.Cell>
           <Table.Cell>
-            <DummyButton colorPalette="gray" />
+            <EndForButton colorPalette="gray" />
           </Table.Cell>
           <Table.Cell>
             <ChordButton name="F#m" colorPalette="teal" />
