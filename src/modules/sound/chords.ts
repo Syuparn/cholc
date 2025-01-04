@@ -30,7 +30,12 @@ export const chords = {
 
 export type ChordName = keyof typeof chords
 
-
 export function getChord(name: ChordName): string[] {
   return chords[name]
+}
+
+export const metaChords = {
+  READY: "READY",
+  INTERRUPT: "INTERRUPT",
+  REST: "REST",
 }

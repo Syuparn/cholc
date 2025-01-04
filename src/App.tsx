@@ -10,7 +10,7 @@ function App() {
             Cholc
           </Heading>
           <Heading size="xl">
-            Let's play and execute your chord progressions!
+            Let's play and calculate your chord progressions!
           </Heading>
 
           <Playground />
