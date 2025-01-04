@@ -4,13 +4,14 @@ function DefaultButton({ name, disabled, colorPalette }: {name: string, disabled
   // TODO: onclick
   return (
     <Button
-      colorPalette={colorPalette}
+      colorPalette={colorPalette} // TODO: change color when the chord is played
       disabled={disabled}
       size="xl"
       fontFamily="monospace"
+      _active={{bg: "orange"}}
     >
       {/* HACK: pad text to make all buttons same size */}
-      {name.padEnd(2, "\u{00A0}").padStart(3, "\u{00A0}")}
+      {name.padStart(2, "\u{00A0}").padEnd(3, "\u{00A0}")}
     </Button>
   )
 }
