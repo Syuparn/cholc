@@ -7,7 +7,10 @@ function App() {
       <Center>
         <VStack>
           <Heading size="5xl">
-            Cholc Playground
+            Cholc
+          </Heading>
+          <Heading size="xl">
+            Let's play and execute your chord progressions!
           </Heading>
 
           <Playground />
