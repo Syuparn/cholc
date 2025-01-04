@@ -7,7 +7,8 @@ function DefaultButton({ name, disabled, colorPalette, onClick }: {name: string,
 
   const commonOnClick = () => {
     // append token written on this button
-    setSource(source + " " + name)
+    const newSource = source ? source + " " + name : name
+    setSource(newSource)
   }
 
   const mergedOnClick = () => {
@@ -20,10 +21,11 @@ function DefaultButton({ name, disabled, colorPalette, onClick }: {name: string,
     <Button
       colorPalette={colorPalette} // TODO: change color when the chord is played
       disabled={disabled}
-      size="xl"
+      size="lg"
       fontFamily="monospace"
       _active={{bg: "orange"}}
       onClick={mergedOnClick}
+      margin="-0.5em"
     >
       {/* HACK: pad text to make all buttons same size */}
       {name.padStart(2, "\u{00A0}").padEnd(3, "\u{00A0}")}
