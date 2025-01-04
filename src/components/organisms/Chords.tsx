@@ -3,6 +3,8 @@ import ChordButton from "../molecules/ChordButton"
 import DummyButton from "../molecules/DummyButton"
 import ForButton from "../molecules/ForButton"
 import EndForButton from "../molecules/EndForButton"
+import InputButton from "../molecules/InputButton"
+import OutputButton from "../molecules/OutputButton"
 
 function Chords() {
   return (
@@ -76,10 +78,10 @@ function Chords() {
             <ChordButton name="Cm" colorPalette="teal" />
           </Table.Cell>
           <Table.Cell>
-            <DummyButton colorPalette="gray" />
+            <InputButton colorPalette="gray" />
           </Table.Cell>
           <Table.Cell>
-            <DummyButton colorPalette="gray" />
+            <OutputButton colorPalette="gray" />
           </Table.Cell>
           <Table.Cell>
             <ChordButton name="C#m" colorPalette="teal" />
