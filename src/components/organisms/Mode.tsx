@@ -13,7 +13,7 @@ function Mode() {
   const {setEditable} = useContext(EditableContext)
   const {setResult} = useContext(ResultContext)
   const {setMemoryView} = useContext(MemoryViewContext)
-  const [intervalNum, setIntervalNum] = useState(0)
+  const [intervalNum, setIntervalNum] = useState<NodeJS.Timeout>(0 as unknown as NodeJS.Timeout)
 
   const evaluator = new Evaluator()
 
