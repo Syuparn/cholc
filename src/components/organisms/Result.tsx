@@ -12,7 +12,7 @@ function Result() {
   return (
     <VStack width="80%">
       <Heading>
-        Result "Chord"
+        Result
       </Heading>
       <Textarea
         fontFamily="monospace"

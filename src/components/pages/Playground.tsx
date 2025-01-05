@@ -10,6 +10,8 @@ import { EditableContext } from "../../modules/context/editable"
 import Debugger from "../organisms/Debugger"
 import { MemoryViewContext } from "../../modules/context/memoryview"
 import { MemoryView } from "../../modules/cholc/memory"
+import Result from "../organisms/Result"
+import { ResultContext } from "../../modules/context/result"
 
 function Playground() {
   const [source, setSource] = useState('')
@@ -17,6 +19,7 @@ function Playground() {
   const [chord, setChord] = useState('')
   const [editable, setEditable] = useState(true)
   const [memoryView, setMemoryView] = useState<MemoryView>([])
+  const [result, setResult] = useState('')
 
   return (
     <>
@@ -25,11 +28,14 @@ function Playground() {
           <InputContext.Provider value={{input, setInput}}>
             <EditableContext.Provider value={{editable, setEditable: setEditable}}>
               <MemoryViewContext.Provider value={{memoryView, setMemoryView}}>
-                <Chords />
-                <Mode />
-                <Debugger />
-                <Source />
-                <Input />
+                <ResultContext.Provider value={{result, setResult}}>
+                  <Chords />
+                  <Mode />
+                  <Debugger />
+                  <Source />
+                  <Input />
+                  <Result />
+                </ResultContext.Provider>
               </MemoryViewContext.Provider>
             </EditableContext.Provider>
           </InputContext.Provider>

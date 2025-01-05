@@ -6,10 +6,12 @@ import { Evaluator } from "../../modules/cholc/evaluate"
 import { metaChords } from "../../modules/sound/chords"
 import { EditableContext } from "../../modules/context/editable"
 import { MemoryViewContext } from "../../modules/context/memoryview"
+import { ResultContext } from "../../modules/context/result"
 
 function Mode() {
   const {setChord} = useContext(ChordContext)
   const {setEditable} = useContext(EditableContext)
+  const {setResult} = useContext(ResultContext)
   const {setMemoryView} = useContext(MemoryViewContext)
   const [intervalNum, setIntervalNum] = useState(0)
 
@@ -21,6 +23,7 @@ function Mode() {
     const interval = setInterval(() => {
       const state = evaluator.step()
       setMemoryView(state.memory)
+      setResult(state.output)
 
       if (state.finished) {
         setChord(metaChords.READY)
