@@ -1,24 +1,14 @@
-// TODO: impl
+import { byteCodes } from "./bytecode";
+import { Evaluator } from "./evaluate";
 
-import { Program } from "./bytecode";
-import { Memory } from "./memory";
-import { CholcState } from "./state";
+describe("evaluate program", () => {
+  test("increment value", () => {
+    const program = [
+      byteCodes.C,
+    ]
+    const evaluator = new Evaluator(program, "")
 
-export class Evaluator {
-  program: Program;
-  input: string;
-  memory: Memory;
-
-  // TODO: use bytecode and input
-  constructor(program: Program, input: string) {
-    this.program = program
-    this.input = input
-    this.memory = Memory.create()
-  }
-
-  step(): CholcState {
-    const chord = "C"
-    return {
+    expect(evaluator.step()).toStrictEqual({
       memory: [
         {address: -4, value: 0, isRefferred: false},
         {address: -3, value: 0, isRefferred: false},
@@ -30,9 +20,13 @@ export class Evaluator {
         {address: 3, value: 0, isRefferred: false},
         {address: 4, value: 0, isRefferred: false},
       ],
-      chord: chord,
+      chord: "C",
       output: "",
       finished: true,
-    }
-  }
-}
+    })
+  })
+});
+
+
+// TODO: test all ops
+// TODO: test the whole evaluation (until stop)

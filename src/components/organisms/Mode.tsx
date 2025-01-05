@@ -15,7 +15,7 @@ function Mode() {
   const {setMemoryView} = useContext(MemoryViewContext)
   const [intervalNum, setIntervalNum] = useState<NodeJS.Timeout>(0 as unknown as NodeJS.Timeout)
 
-  const evaluator = new Evaluator()
+  const evaluator = new Evaluator([], "") // TODO: assign input
 
   const run = () => {
     setEditable(false)
