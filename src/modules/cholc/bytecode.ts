@@ -50,3 +50,10 @@ export function isMajor(code: ByteCode): boolean {
 export function isMinor(code: ByteCode): boolean {
   return (code >= 12) && (code < 24)
 }
+
+export function getPitch(code: ByteCode): ({pitch: number, ok: boolean}) {
+  return {
+    pitch: code % 12,
+    ok: (code >= 0) && (code < 24),
+  }
+}

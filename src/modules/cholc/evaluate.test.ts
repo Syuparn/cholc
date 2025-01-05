@@ -66,6 +66,31 @@ describe("get result of step evaluation", () => {
       finished: false,
     })
   })
+
+  test("finish when pc reaches at the end of the program", () => {
+    const program = [
+      byteCodes.C,
+    ]
+    const evaluator = new Evaluator(program, "")
+    evaluator.step() // execute
+
+    expect(evaluator.step()).toStrictEqual({
+      memory: [
+        {address: -4, value: 0, isRefferred: false},
+        {address: -3, value: 0, isRefferred: false},
+        {address: -2, value: 0, isRefferred: false},
+        {address: -1, value: 0, isRefferred: false},
+        {address: 0, value: 1, isRefferred: true},
+        {address: 1, value: 0, isRefferred: false},
+        {address: 2, value: 0, isRefferred: false},
+        {address: 3, value: 0, isRefferred: false},
+        {address: 4, value: 0, isRefferred: false},
+      ],
+      chord: "",
+      output: "",
+      finished: true,
+    })
+  })
 });
 
 // TODO: test all ops
