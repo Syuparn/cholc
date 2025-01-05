@@ -18,7 +18,6 @@ describe("evaluate program", () => {
         },
       }),
       pc: 1,
-      loopAddress: -1,
     })
   })
 
@@ -37,7 +36,6 @@ describe("evaluate program", () => {
         },
       }),
       pc: 1,
-      loopAddress: -1,
     })
   })
 
@@ -59,7 +57,6 @@ describe("evaluate program", () => {
         },
       }),
       pc: 2,
-      loopAddress: -1,
     })
   })
 
@@ -78,7 +75,6 @@ describe("evaluate program", () => {
         },
       }),
       pc: 1,
-      loopAddress: -1,
     })
   })
 
@@ -98,7 +94,55 @@ describe("evaluate program", () => {
         },
       }),
       pc: 2,
-      loopAddress: -1,
+    })
+  })
+
+  test("jump pc by startloop", () => {
+    const program = [
+      byteCodes.StartLoop,
+      byteCodes.C,
+      byteCodes.C,
+      byteCodes.C,
+      byteCodes.EndLoop,
+      byteCodes.G,
+      byteCodes.D,
+    ]
+    const evaluator = new Evaluator(program, "")
+    evaluator.step()
+
+    expect(evaluator.dump()).toStrictEqual({
+      memory: Memory.createForTest({
+        pointer: 0,
+        memory: {
+          "0": 1,
+        },
+      }),
+      pc: 6, // jump to code after endloop
+    })
+  })
+
+  test("jump pc by endloop", () => {
+    const program = [
+      byteCodes.C,
+      byteCodes.StartLoop,
+      byteCodes.G,
+      byteCodes.EndLoop,
+      byteCodes.D,
+    ]
+    const evaluator = new Evaluator(program, "")
+    evaluator.step() // [C]
+    evaluator.step() // [StartLoop, G]
+    evaluator.step() // [EndLoop, G]
+
+    expect(evaluator.dump()).toStrictEqual({
+      memory: Memory.createForTest({
+        pointer: 1,
+        memory: {
+          "0": 1,
+          "1": 2,
+        },
+      }),
+      pc: 3, // jump to code after startloop
     })
   })
 });
@@ -258,10 +302,10 @@ describe("get result of step evaluation", () => {
       byteCodes.Output,
     ]
     const evaluator = new Evaluator(program, "a")
-    // execute all steps except the last one ([Input, C], [Output], [C])
-    evaluator.step()
-    evaluator.step()
-    evaluator.step()
+    // execute all steps except the last one
+    evaluator.step() // [Input, C]
+    evaluator.step() // [Output]
+    evaluator.step() // [C]
 
     expect(evaluator.step()).toStrictEqual({
       memory: [
@@ -280,7 +324,181 @@ describe("get result of step evaluation", () => {
       finished: false,
     })
   })
+
+  test("jump by startLoop", () => {
+    const program = [
+      byteCodes.StartLoop,
+      byteCodes.C,
+      byteCodes.C,
+      byteCodes.EndLoop,
+      byteCodes.G,
+    ]
+    const evaluator = new Evaluator(program, "")
+
+    expect(evaluator.step()).toStrictEqual({
+      memory: [
+        {address: -4, value: 0, isRefferred: false},
+        {address: -3, value: 0, isRefferred: false},
+        {address: -2, value: 0, isRefferred: false},
+        {address: -1, value: 0, isRefferred: false},
+        {address: 0, value: 1, isRefferred: true},
+        {address: 1, value: 0, isRefferred: false},
+        {address: 2, value: 0, isRefferred: false},
+        {address: 3, value: 0, isRefferred: false},
+        {address: 4, value: 0, isRefferred: false},
+      ],
+      chord: "G",
+      output: "",
+      finished: false,
+    })
+  })
+
+  test("jump by startLoop (end is missing)", () => {
+    const program = [
+      byteCodes.StartLoop,
+      byteCodes.C,
+      byteCodes.C,
+      byteCodes.G,
+    ]
+    const evaluator = new Evaluator(program, "")
+
+    expect(evaluator.step()).toStrictEqual({
+      memory: [
+        {address: -4, value: 0, isRefferred: false},
+        {address: -3, value: 0, isRefferred: false},
+        {address: -2, value: 0, isRefferred: false},
+        {address: -1, value: 0, isRefferred: false},
+        {address: 0, value: 0, isRefferred: true},
+        {address: 1, value: 0, isRefferred: false},
+        {address: 2, value: 0, isRefferred: false},
+        {address: 3, value: 0, isRefferred: false},
+        {address: 4, value: 0, isRefferred: false},
+      ],
+      chord: "",
+      output: "",
+      finished: true,
+    })
+  })
+
+  test("startLoop jump does not work", () => {
+    const program = [
+      byteCodes.C,
+      byteCodes.StartLoop,
+      byteCodes.G,
+      byteCodes.D,
+      byteCodes.EndLoop,
+      byteCodes.D,
+    ]
+    const evaluator = new Evaluator(program, "")
+    evaluator.step() // [C]
+
+    expect(evaluator.step()).toStrictEqual({
+      memory: [
+        {address: -3, value: 0, isRefferred: false},
+        {address: -2, value: 0, isRefferred: false},
+        {address: -1, value: 0, isRefferred: false},
+        {address: 0, value: 1, isRefferred: false},
+        {address: 1, value: 1, isRefferred: true},
+        {address: 2, value: 0, isRefferred: false},
+        {address: 3, value: 0, isRefferred: false},
+        {address: 4, value: 0, isRefferred: false},
+        {address: 5, value: 0, isRefferred: false},
+      ],
+      chord: "G",
+      output: "",
+      finished: false,
+    })
+  })
+
+  test("jump by endLoop", () => {
+    const program = [
+      byteCodes.C,
+      byteCodes.StartLoop,
+      byteCodes.G,
+      byteCodes.C,
+      byteCodes.EndLoop,
+      byteCodes.D,
+    ]
+    const evaluator = new Evaluator(program, "")
+    evaluator.step() // [C]
+    evaluator.step() // [StartLoop, G]
+    evaluator.step() // [C]
+
+    expect(evaluator.step()).toStrictEqual({
+      memory: [
+        {address: -3, value: 0, isRefferred: false},
+        {address: -2, value: 0, isRefferred: false},
+        {address: -1, value: 0, isRefferred: false},
+        {address: 0, value: 2, isRefferred: false},
+        {address: 1, value: 2, isRefferred: true},
+        {address: 2, value: 0, isRefferred: false},
+        {address: 3, value: 0, isRefferred: false},
+        {address: 4, value: 0, isRefferred: false},
+        {address: 5, value: 0, isRefferred: false},
+      ],
+      chord: "G",
+      output: "",
+      finished: false,
+    })
+  })
+
+  test("jump by endLoop(startLoop is missing)", () => {
+    const program = [
+      byteCodes.C,
+      byteCodes.G,
+      byteCodes.EndLoop,
+      byteCodes.D,
+    ]
+    const evaluator = new Evaluator(program, "")
+    evaluator.step() // [C]
+    evaluator.step() // [G]
+
+    expect(evaluator.step()).toStrictEqual({
+      memory: [
+        {address: -4, value: 0, isRefferred: false},
+        {address: -3, value: 0, isRefferred: false},
+        {address: -2, value: 0, isRefferred: false},
+        {address: -1, value: 0, isRefferred: false},
+        {address: 0, value: 2, isRefferred: true},
+        {address: 1, value: 1, isRefferred: false},
+        {address: 2, value: 0, isRefferred: false},
+        {address: 3, value: 0, isRefferred: false},
+        {address: 4, value: 0, isRefferred: false},
+      ],
+      chord: "C",
+      output: "",
+      finished: false,
+    })
+  })
+
+  test("endLoop jump does not work", () => {
+    const program = [
+      byteCodes.C,
+      byteCodes.CMinor,
+      byteCodes.EndLoop,
+      byteCodes.G,
+    ]
+    const evaluator = new Evaluator(program, "")
+    evaluator.step() // [C]
+    evaluator.step() // [CMinor]
+
+    expect(evaluator.step()).toStrictEqual({
+      memory: [
+        {address: -3, value: 0, isRefferred: false},
+        {address: -2, value: 0, isRefferred: false},
+        {address: -1, value: 0, isRefferred: false},
+        {address: 0, value: 0, isRefferred: false},
+        {address: 1, value: 1, isRefferred: true},
+        {address: 2, value: 0, isRefferred: false},
+        {address: 3, value: 0, isRefferred: false},
+        {address: 4, value: 0, isRefferred: false},
+        {address: 5, value: 0, isRefferred: false},
+      ],
+      chord: "G",
+      output: "",
+      finished: false,
+    })
+  })
 });
 
-// TODO: test all ops
 // TODO: test the whole evaluation (until stop)

@@ -8,7 +8,6 @@ import { CholcState } from "./state";
 export type EvaluatorDump = {
   memory: Memory;
   pc: number;
-  loopAddress: number;
 }
 
 export class Evaluator {
@@ -17,7 +16,6 @@ export class Evaluator {
   inputCnt: 0;
   memory: Memory;
   pc: number;
-  loopAddress: number;
   lastPitch: number | undefined;
   output: string;
 
@@ -27,12 +25,12 @@ export class Evaluator {
     this.inputCnt = 0
     this.memory = Memory.create()
     this.pc = 0
-    this.loopAddress = -1
     this.output = ""
   }
 
   step(): CholcState {
     this.inputChar()
+    this.handleLoop()
 
     if (this.pc >= this.program.length) {
       return {
@@ -68,6 +66,66 @@ export class Evaluator {
       this.inputCnt++
       this.pc++
     }
+  }
+
+  private handleLoop() {
+    if (this.program[this.pc] === byteCodes.StartLoop) {
+      if (this.memory.get() === 0) {
+        this.jumpToEndLoop()
+      } else {
+        // simply skip this code
+        this.pc++
+      }
+    } else if (this.program[this.pc] === byteCodes.EndLoop) {
+      if (this.memory.get() !== 0) {
+        this.jumpToStartLoop()
+      } else {
+        // simply skip this code
+        this.pc++
+      }
+    }
+  }
+
+  private jumpToStartLoop() {
+    let nest = 1
+    let newPC = this.pc
+    while (newPC >= 0) {
+      newPC--
+
+      if (this.program[newPC] === byteCodes.StartLoop) {
+        nest--
+
+        if (nest === 0) {
+          break
+        }
+      }
+      if (this.program[newPC] === byteCodes.EndLoop) {
+        nest++
+      }
+    }
+
+    this.pc = newPC + 1
+  }
+
+  private jumpToEndLoop() {
+    let nest = 1
+    let newPC = this.pc
+    while (newPC < this.program.length) {
+      newPC++
+
+      if (this.program[newPC] === byteCodes.StartLoop) {
+        nest++
+      }
+      if (this.program[newPC] === byteCodes.EndLoop) {
+        nest--
+
+        if (nest === 0) {
+          break
+        }
+      }
+    }
+
+    this.pc = newPC + 1
   }
 
   private outputChar() {
@@ -108,7 +166,6 @@ export class Evaluator {
     return {
       memory: this.memory,
       pc: this.pc,
-      loopAddress: this.loopAddress,
     }
   }
 }
