@@ -7,23 +7,30 @@ import { InputContext } from "../../modules/context/input"
 import Mode from "../organisms/Mode"
 import { ChordContext } from "../../modules/context/chord"
 import { EditableContext } from "../../modules/context/editable"
+import Debugger from "../organisms/Debugger"
+import { MemoryViewContext } from "../../modules/context/memoryview"
+import { MemoryView } from "../../modules/cholc/memory"
 
 function Playground() {
-  const [sourceCode, setSourceCode] = useState('')
+  const [source, setSource] = useState('')
   const [input, setInput] = useState('')
   const [chord, setChord] = useState('')
   const [editable, setEditable] = useState(true)
+  const [memoryView, setMemoryView] = useState<MemoryView>([])
 
   return (
     <>
-      <ChordContext.Provider value={{chord: chord, setChord: setChord}}>
-        <SourceContext.Provider value={{source: sourceCode, setSource: setSourceCode}}>
-          <InputContext.Provider value={{input: input, setInput: setInput}}>
-            <EditableContext.Provider value={{editable: editable, setEditable: setEditable}}>
-              <Chords />
-              <Mode />
-              <Source />
-              <Input />
+      <ChordContext.Provider value={{chord, setChord}}>
+        <SourceContext.Provider value={{source, setSource}}>
+          <InputContext.Provider value={{input, setInput}}>
+            <EditableContext.Provider value={{editable, setEditable: setEditable}}>
+              <MemoryViewContext.Provider value={{memoryView, setMemoryView}}>
+                <Chords />
+                <Mode />
+                <Debugger />
+                <Source />
+                <Input />
+              </MemoryViewContext.Provider>
             </EditableContext.Provider>
           </InputContext.Provider>
         </SourceContext.Provider>

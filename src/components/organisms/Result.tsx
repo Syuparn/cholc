@@ -1,28 +1,28 @@
 import { useContext } from "react"
-import { SourceContext } from "../../modules/context/source"
+import { ResultContext } from "../../modules/context/result"
 import { Heading, Textarea, VStack } from "@chakra-ui/react"
 
-function Source() {
-  const {source, setSource} = useContext(SourceContext)
+function Result() {
+  const {result, setResult} = useContext(ResultContext)
 
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setSource(e.target.value)
+    setResult(e.target.value)
   }
 
   return (
     <VStack width="80%">
       <Heading>
-        Source "Chord"
+        Result "Chord"
       </Heading>
       <Textarea
         fontFamily="monospace"
         fontSize="lg"
         rows={1}
-        value={source}
+        value={result}
         onChange={onChange}
       />
     </VStack>
   )
 }
 
-export default Source
+export default Result
