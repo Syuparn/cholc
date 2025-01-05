@@ -1,6 +1,8 @@
 import { byteCodes } from "./bytecode";
 import { Evaluator } from "./evaluate";
 import { Memory } from "./memory";
+import { Parser } from "./parse";
+import { CholcState } from "./state";
 
 describe("evaluate program", () => {
   test("increment value", () => {
@@ -502,3 +504,25 @@ describe("get result of step evaluation", () => {
 });
 
 // TODO: test the whole evaluation (until stop)
+
+describe("evaluate sample codes until the program finishes", () => {
+  test.each`
+    title               | source                           | input    | expected
+    ${"echo"}           | ${"v X"}                         | ${"a"}   | ${"a"}
+    ${"order"}          | ${"v X C X C X"}                 | ${"a"}   | ${"abc"}
+    ${"add two inputs"} | ${"C v F v Cm |: C Fm :| C X"}   | ${"#-"}  | ${"P"}
+    `("exec $title", ({source, input, expected}) => {
+      const program = new Parser(source).parse()
+      const evaluator = new Evaluator(program, input)
+
+      let state: CholcState
+      while (true) {
+        state = evaluator.step()
+        if (state.finished) {
+          break
+        }
+      }
+
+    expect(state.output).toBe(expected)
+  })
+})
