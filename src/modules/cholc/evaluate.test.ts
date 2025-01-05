@@ -21,6 +21,25 @@ describe("evaluate program", () => {
       loopAddress: -1,
     })
   })
+
+  test("decrement value", () => {
+    const program = [
+      byteCodes.CMinor,
+    ]
+    const evaluator = new Evaluator(program, "")
+    evaluator.step()
+
+    expect(evaluator.dump()).toStrictEqual({
+      memory: Memory.createForTest({
+        pointer: 0,
+        memory: {
+          "0": -1, // set
+        },
+      }),
+      pc: 1,
+      loopAddress: -1,
+    })
+  })
 });
 
 describe("get result of step evaluation", () => {
@@ -48,7 +67,6 @@ describe("get result of step evaluation", () => {
     })
   })
 });
-
 
 // TODO: test all ops
 // TODO: test the whole evaluation (until stop)

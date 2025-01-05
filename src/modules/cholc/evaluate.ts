@@ -1,6 +1,7 @@
 // TODO: impl
 
-import { Program } from "./bytecode";
+import { isMajor, isMinor, Program } from "./bytecode";
+import { chordName } from "./chord";
 import { Memory } from "./memory";
 import { CholcState } from "./state";
 
@@ -26,25 +27,29 @@ export class Evaluator {
   }
 
   step(): CholcState {
-    const chord = "C"
+    const chord = chordName(this.program[this.pc])
+    this.updateMemory()
     this.pc++
-    this.memory.set(1)
 
     return {
-      memory: [
-        {address: -4, value: 0, isRefferred: false},
-        {address: -3, value: 0, isRefferred: false},
-        {address: -2, value: 0, isRefferred: false},
-        {address: -1, value: 0, isRefferred: false},
-        {address: 0, value: 1, isRefferred: true},
-        {address: 1, value: 0, isRefferred: false},
-        {address: 2, value: 0, isRefferred: false},
-        {address: 3, value: 0, isRefferred: false},
-        {address: 4, value: 0, isRefferred: false},
-      ],
+      memory: this.memory.view(),
       chord: chord,
       output: "",
       finished: true,
+    }
+  }
+
+  private updateMemory() {
+    const code = this.program[this.pc]
+    if (isMajor(code)) {
+      // increment value
+      this.memory.set(this.memory.get() + 1)
+      return
+    }
+    if (isMinor(code)) {
+      // decrement value
+      this.memory.set(this.memory.get() - 1)
+      return
     }
   }
 

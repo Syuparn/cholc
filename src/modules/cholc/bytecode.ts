@@ -41,3 +41,12 @@ export type ByteCodeName = keyof typeof byteCodes
 export type ByteCode = typeof byteCodes[ByteCodeName]
 
 export type Program = ByteCode[]
+
+
+export function isMajor(code: ByteCode): boolean {
+  return (code >= 0) && (code < 12)
+}
+
+export function isMinor(code: ByteCode): boolean {
+  return (code >= 12) && (code < 24)
+}
