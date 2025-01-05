@@ -19,6 +19,7 @@ export class Evaluator {
   pc: number;
   loopAddress: number;
   lastPitch: number | undefined;
+  output: string;
 
   constructor(program: Program, input: string) {
     this.program = program
@@ -27,6 +28,7 @@ export class Evaluator {
     this.memory = Memory.create()
     this.pc = 0
     this.loopAddress = -1
+    this.output = ""
   }
 
   step(): CholcState {
@@ -36,7 +38,7 @@ export class Evaluator {
       return {
         memory: this.memory.view(),
         chord: "",
-        output: "",
+        output: this.output,
         finished: true,
       }
     }
@@ -45,23 +47,33 @@ export class Evaluator {
     this.movePointer()
     this.updateMemory()
 
+    this.outputChar()
+
     this.pc++
 
     return {
       memory: this.memory.view(),
       chord: chord,
-      output: "",
+      output: this.output,
       finished: false,
     }
   }
 
   private inputChar() {
-    while (this.program[this.pc] == byteCodes.Input) {
+    // NOTE: unlike output(`X`), input(`v`) is consumed instantly and the next code is executed within the step
+    while (this.program[this.pc] === byteCodes.Input) {
       const charCode = this.inputCnt < this.input.length ? this.input.charCodeAt(this.inputCnt) : 0
       this.memory.set(charCode)
 
       this.inputCnt++
       this.pc++
+    }
+  }
+
+  private outputChar() {
+    if (this.program[this.pc] === byteCodes.Output) {
+      const chr = String.fromCharCode(this.memory.get())
+      this.output += chr
     }
   }
 

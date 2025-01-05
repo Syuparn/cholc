@@ -81,6 +81,26 @@ describe("evaluate program", () => {
       loopAddress: -1,
     })
   })
+
+  test("output character", () => {
+    const program = [
+      byteCodes.Input,
+      byteCodes.Output,
+    ]
+    const evaluator = new Evaluator(program, "a")
+    evaluator.step()
+
+    expect(evaluator.dump()).toStrictEqual({
+      memory: Memory.createForTest({
+        pointer: 0,
+        memory: {
+          "0": 97, // set
+        },
+      }),
+      pc: 2,
+      loopAddress: -1,
+    })
+  })
 });
 
 describe("move pointer by pitch interval", () => {
@@ -197,6 +217,66 @@ describe("get result of step evaluation", () => {
       ],
       chord: "C",
       output: "",
+      finished: false,
+    })
+  })
+
+  test("output returns rest", () => {
+    const program = [
+      byteCodes.Input,
+      byteCodes.C,
+      byteCodes.Output,
+    ]
+    const evaluator = new Evaluator(program, "a")
+    // execute all steps except the last one ([Input, C])
+    evaluator.step()
+
+    expect(evaluator.step()).toStrictEqual({
+      memory: [
+        {address: -4, value: 0, isRefferred: false},
+        {address: -3, value: 0, isRefferred: false},
+        {address: -2, value: 0, isRefferred: false},
+        {address: -1, value: 0, isRefferred: false},
+        {address: 0, value: 98, isRefferred: true},
+        {address: 1, value: 0, isRefferred: false},
+        {address: 2, value: 0, isRefferred: false},
+        {address: 3, value: 0, isRefferred: false},
+        {address: 4, value: 0, isRefferred: false},
+      ],
+      chord: "X",
+      output: "b",
+      finished: false,
+    })
+  })
+
+  test("output is appended", () => {
+    const program = [
+      byteCodes.Input,
+      byteCodes.C,
+      byteCodes.Output,
+      byteCodes.C,
+      byteCodes.Output,
+    ]
+    const evaluator = new Evaluator(program, "a")
+    // execute all steps except the last one ([Input, C], [Output], [C])
+    evaluator.step()
+    evaluator.step()
+    evaluator.step()
+
+    expect(evaluator.step()).toStrictEqual({
+      memory: [
+        {address: -4, value: 0, isRefferred: false},
+        {address: -3, value: 0, isRefferred: false},
+        {address: -2, value: 0, isRefferred: false},
+        {address: -1, value: 0, isRefferred: false},
+        {address: 0, value: 99, isRefferred: true},
+        {address: 1, value: 0, isRefferred: false},
+        {address: 2, value: 0, isRefferred: false},
+        {address: 3, value: 0, isRefferred: false},
+        {address: 4, value: 0, isRefferred: false},
+      ],
+      chord: "X",
+      output: "bc",
       finished: false,
     })
   })
