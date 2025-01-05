@@ -1,6 +1,6 @@
 // TODO: impl
 
-import { getPitch, isMajor, isMinor, keySignatureMove, Program } from "./bytecode";
+import { byteCodes, getPitch, isMajor, isMinor, keySignatureMove, Program } from "./bytecode";
 import { chordName } from "./chord";
 import { Memory } from "./memory";
 import { CholcState } from "./state";
@@ -14,6 +14,7 @@ export type EvaluatorDump = {
 export class Evaluator {
   program: Program;
   input: string;
+  inputCnt: 0;
   memory: Memory;
   pc: number;
   loopAddress: number;
@@ -22,12 +23,15 @@ export class Evaluator {
   constructor(program: Program, input: string) {
     this.program = program
     this.input = input
+    this.inputCnt = 0
     this.memory = Memory.create()
     this.pc = 0
     this.loopAddress = -1
   }
 
   step(): CholcState {
+    this.inputChar()
+
     if (this.pc >= this.program.length) {
       return {
         memory: this.memory.view(),
@@ -48,6 +52,16 @@ export class Evaluator {
       chord: chord,
       output: "",
       finished: false,
+    }
+  }
+
+  private inputChar() {
+    while (this.program[this.pc] == byteCodes.Input) {
+      const charCode = this.inputCnt < this.input.length ? this.input.charCodeAt(this.inputCnt) : 0
+      this.memory.set(charCode)
+
+      this.inputCnt++
+      this.pc++
     }
   }
 

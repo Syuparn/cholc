@@ -62,6 +62,25 @@ describe("evaluate program", () => {
       loopAddress: -1,
     })
   })
+
+  test("input character", () => {
+    const program = [
+      byteCodes.Input,
+    ]
+    const evaluator = new Evaluator(program, "a")
+    evaluator.step()
+
+    expect(evaluator.dump()).toStrictEqual({
+      memory: Memory.createForTest({
+        pointer: 0,
+        memory: {
+          "0": 97, // set
+        },
+      }),
+      pc: 1,
+      loopAddress: -1,
+    })
+  })
 });
 
 describe("move pointer by pitch interval", () => {
@@ -130,6 +149,55 @@ describe("get result of step evaluation", () => {
       chord: "",
       output: "",
       finished: true,
+    })
+  })
+
+  test("input itself does not appear in step", () => {
+    const program = [
+      byteCodes.Input,
+    ]
+    const evaluator = new Evaluator(program, "a")
+
+    expect(evaluator.step()).toStrictEqual({
+      memory: [
+        {address: -4, value: 0, isRefferred: false},
+        {address: -3, value: 0, isRefferred: false},
+        {address: -2, value: 0, isRefferred: false},
+        {address: -1, value: 0, isRefferred: false},
+        {address: 0, value: 97, isRefferred: true},
+        {address: 1, value: 0, isRefferred: false},
+        {address: 2, value: 0, isRefferred: false},
+        {address: 3, value: 0, isRefferred: false},
+        {address: 4, value: 0, isRefferred: false},
+      ],
+      chord: "",
+      output: "",
+      finished: true,
+    })
+  })
+
+  test("code after input is evaluated within a step", () => {
+    const program = [
+      byteCodes.Input,
+      byteCodes.C,
+    ]
+    const evaluator = new Evaluator(program, "a")
+
+    expect(evaluator.step()).toStrictEqual({
+      memory: [
+        {address: -4, value: 0, isRefferred: false},
+        {address: -3, value: 0, isRefferred: false},
+        {address: -2, value: 0, isRefferred: false},
+        {address: -1, value: 0, isRefferred: false},
+        {address: 0, value: 98, isRefferred: true},
+        {address: 1, value: 0, isRefferred: false},
+        {address: 2, value: 0, isRefferred: false},
+        {address: 3, value: 0, isRefferred: false},
+        {address: 4, value: 0, isRefferred: false},
+      ],
+      chord: "C",
+      output: "",
+      finished: false,
     })
   })
 });
