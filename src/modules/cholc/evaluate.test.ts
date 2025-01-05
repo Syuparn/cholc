@@ -1,7 +1,29 @@
 import { byteCodes } from "./bytecode";
 import { Evaluator } from "./evaluate";
+import { Memory } from "./memory";
 
 describe("evaluate program", () => {
+  test("increment value", () => {
+    const program = [
+      byteCodes.C,
+    ]
+    const evaluator = new Evaluator(program, "")
+    evaluator.step()
+
+    expect(evaluator.dump()).toStrictEqual({
+      memory: Memory.createForTest({
+        pointer: 0,
+        memory: {
+          "0": 1, // set
+        },
+      }),
+      pc: 1,
+      loopAddress: -1,
+    })
+  })
+});
+
+describe("get result of step evaluation", () => {
   test("increment value", () => {
     const program = [
       byteCodes.C,

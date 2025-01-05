@@ -20,9 +20,6 @@ export class Memory {
   static create(): Memory {
     const pointer = 0
     const memory: MemoryData = {}
-    for (let i = -4; i <= 4; i++) {
-      memory[i] = 0
-    }
 
     return new Memory(pointer, memory)
   }
@@ -32,6 +29,10 @@ export class Memory {
   }
 
   get(): number {
+    if (this.memory[this.pointer] === undefined) {
+      this.memory[this.pointer] = 0 // initialize
+    }
+
     return this.memory[this.pointer]
   }
 
@@ -45,6 +46,17 @@ export class Memory {
 
   decrementPtr() {
     this.pointer--
+  }
+
+  view(): MemoryView {
+    const viewSize = 4
+    // [-viewSize, -viewSize+1, ..., viewSize]
+    const viewRange = Array.from(Array(2 * viewSize + 1), (_, i) => i - viewSize)
+    return viewRange.map(i => ({
+      address: this.pointer + i,
+      value: this.memory[this.pointer + i] ?? 0,
+      isRefferred: i == 0, // whether address is same as pointer
+    }))
   }
 }
 
