@@ -63,7 +63,7 @@ describe("get result of step evaluation", () => {
       ],
       chord: "C",
       output: "",
-      finished: true,
+      finished: false,
     })
   })
 });
