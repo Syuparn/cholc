@@ -1,6 +1,6 @@
 // TODO: impl
 
-import { isMajor, isMinor, Program } from "./bytecode";
+import { getPitch, isMajor, isMinor, keySignatureMove, Program } from "./bytecode";
 import { chordName } from "./chord";
 import { Memory } from "./memory";
 import { CholcState } from "./state";
@@ -17,6 +17,7 @@ export class Evaluator {
   memory: Memory;
   pc: number;
   loopAddress: number;
+  lastPitch: number | undefined;
 
   constructor(program: Program, input: string) {
     this.program = program
@@ -37,7 +38,9 @@ export class Evaluator {
     }
 
     const chord = chordName(this.program[this.pc])
+    this.movePointer()
     this.updateMemory()
+
     this.pc++
 
     return {
@@ -60,6 +63,19 @@ export class Evaluator {
       this.memory.set(this.memory.get() - 1)
       return
     }
+  }
+
+  private movePointer() {
+    const {pitch, ok} = getPitch(this.program[this.pc])
+    if (!ok) {
+      // current code is not a chord
+      return
+    }
+
+    if (this.lastPitch !== undefined) {
+      this.memory.movePtr(keySignatureMove(this.lastPitch, pitch))
+    }
+    this.lastPitch = pitch
   }
 
   dump(): EvaluatorDump {

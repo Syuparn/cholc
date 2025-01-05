@@ -36,9 +36,9 @@ describe("get value from memory", () => {
   test("get after moving pointer", () => {
     const memory = Memory.create()
     memory.set(5)
-    memory.incrementPtr()
+    memory.movePtr(1)
     memory.set(10)
-    memory.decrementPtr()
+    memory.movePtr(-1)
 
     memory.get()
 
@@ -46,27 +46,14 @@ describe("get value from memory", () => {
   })
 });
 
-describe("increment pointer", () => {
+describe("move pointer", () => {
   test("incrementPtr", () => {
     const memory = Memory.create()
 
-    memory.incrementPtr()
+    memory.movePtr(10)
 
     expect(memory).toStrictEqual(Memory.createForTest({
-      pointer: 1,
-      memory: {},
-    }))
-  })
-});
-
-describe("decrement pointer", () => {
-  test("decrementPtr", () => {
-    const memory = Memory.create()
-
-    memory.decrementPtr()
-
-    expect(memory).toStrictEqual(Memory.createForTest({
-      pointer: -1,
+      pointer: 10,
       memory: {},
     }))
   })
@@ -108,7 +95,7 @@ describe("view memory", () => {
 
   test("move pointer", () => {
     const memory = Memory.create()
-    memory.incrementPtr()
+    memory.movePtr(1)
 
     expect(memory.view()).toStrictEqual([
       {address: -3, value: 0, isRefferred: false},
@@ -126,7 +113,7 @@ describe("view memory", () => {
   test("set value then move pointer", () => {
     const memory = Memory.create()
     memory.set(1)
-    memory.decrementPtr()
+    memory.movePtr(-1)
 
     expect(memory.view()).toStrictEqual([
       {address: -5, value: 0, isRefferred: false},

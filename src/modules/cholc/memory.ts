@@ -40,12 +40,8 @@ export class Memory {
     this.memory[this.pointer] = v
   }
 
-  incrementPtr() {
-    this.pointer++
-  }
-
-  decrementPtr() {
-    this.pointer--
+  movePtr(diff: number) {
+    this.pointer += diff
   }
 
   view(): MemoryView {

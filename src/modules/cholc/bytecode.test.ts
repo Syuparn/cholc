@@ -1,4 +1,4 @@
-import { byteCodes, getPitch, isMajor, isMinor } from "./bytecode";
+import { byteCodes, getPitch, isMajor, isMinor, keySignatureMove } from "./bytecode";
 
 describe("check whether code is major chord", () => {
   test.each`
@@ -51,5 +51,28 @@ describe("get pitch (special codes)", () => {
     const {ok} = getPitch(code)
 
     expect(ok).toBe(false)
+  })
+});
+
+describe("key signature move", () => {
+  test.each`
+    title        | pitch1 | pitch2 | expected
+    ${"C -> C "} | ${0}   | ${0}   | ${0}
+    ${"C -> G "} | ${0}   | ${7}   | ${1}
+    ${"C -> D "} | ${0}   | ${2}   | ${2}
+    ${"C -> A "} | ${0}   | ${9}   | ${3}
+    ${"C -> E "} | ${0}   | ${4}   | ${4}
+    ${"C -> B "} | ${0}   | ${11}  | ${5}
+    ${"C -> Gb"} | ${0}   | ${6}   | ${-6} 
+    ${"C -> Db"} | ${0}   | ${1}   | ${-5} 
+    ${"C -> Ab"} | ${0}   | ${8}   | ${-4} 
+    ${"C -> Eb"} | ${0}   | ${3}   | ${-3} 
+    ${"C -> Bb"} | ${0}   | ${10}  | ${-2} 
+    ${"C -> F "} | ${0}   | ${5}   | ${-1} 
+    ${"G -> D "} | ${7}   | ${2}   | ${1}
+    ${"D -> E "} | ${2}   | ${4}   | ${2}
+    ${"Bb-> Eb"} | ${10}  | ${3}   | ${-1}
+    `("move $title", ({pitch1, pitch2, expected}) => {
+    expect(keySignatureMove(pitch1, pitch2)).toBe(expected)
   })
 });

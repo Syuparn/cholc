@@ -40,6 +40,47 @@ describe("evaluate program", () => {
       loopAddress: -1,
     })
   })
+
+  test("move pointer", () => {
+    const program = [
+      byteCodes.CMinor,
+      byteCodes.G,
+    ]
+    const evaluator = new Evaluator(program, "")
+    evaluator.step()
+    evaluator.step() // C -> G: add one # (= add 1 to pointer)
+
+    expect(evaluator.dump()).toStrictEqual({
+      memory: Memory.createForTest({
+        pointer: 1,
+        memory: {
+          "0": -1,
+          "1": 1,
+        },
+      }),
+      pc: 2,
+      loopAddress: -1,
+    })
+  })
+});
+
+describe("move pointer by pitch interval", () => {
+  test.each`
+    program                             | expected
+    ${[byteCodes.C, byteCodes.G]}       | ${{"0": 1, "1": 1}} 
+    ${[byteCodes.C, byteCodes.D]}       | ${{"0": 1, "2": 1}} 
+    ${[byteCodes.C, byteCodes.GMinor]}  | ${{"0": 1, "1": -1}} 
+    ${[byteCodes.CMinor, byteCodes.G]}  | ${{"0": -1, "1": 1}} 
+    ${[byteCodes.D, byteCodes.G]}       | ${{"0": 1, "-1": 1}} 
+  `("memory after executing $program: $expected", ({program, expected}) => {
+    const evaluator = new Evaluator(program, "")
+    evaluator.step()
+    evaluator.step()
+
+    const {memory} = evaluator.dump()
+
+    expect(memory.memory).toStrictEqual(expected)
+  })
 });
 
 describe("get result of step evaluation", () => {

@@ -57,3 +57,18 @@ export function getPitch(code: ByteCode): ({pitch: number, ok: boolean}) {
     ok: (code >= 0) && (code < 24),
   }
 }
+
+export function keySignatureMove(pitch1: number, pitch2: number): number {
+  let pitch = pitch1
+  for (let move = 0; move < 12; move++) {
+    if (pitch == pitch2) {
+      // adding more than 5 sharps means adding flats 
+      return move > 5 ? move - 12 : move
+    }
+
+    // {add one sharp} == {7 semitones higher}
+    pitch = (pitch + 7) % 12
+  }
+
+  throw new Error(`must not be reacted: pitch1: "${pitch1}", pitch2: "${pitch2}"`)
+}
