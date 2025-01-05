@@ -27,6 +27,15 @@ export class Evaluator {
   }
 
   step(): CholcState {
+    if (this.pc >= this.program.length) {
+      return {
+        memory: this.memory.view(),
+        chord: "",
+        output: "",
+        finished: true,
+      }
+    }
+
     const chord = chordName(this.program[this.pc])
     this.updateMemory()
     this.pc++
@@ -35,7 +44,7 @@ export class Evaluator {
       memory: this.memory.view(),
       chord: chord,
       output: "",
-      finished: true,
+      finished: false,
     }
   }
 

@@ -7,15 +7,21 @@ import { metaChords } from "../../modules/sound/chords"
 import { EditableContext } from "../../modules/context/editable"
 import { MemoryViewContext } from "../../modules/context/memoryview"
 import { ResultContext } from "../../modules/context/result"
+import { Parser } from "../../modules/cholc/parse"
+import { SourceContext } from "../../modules/context/source"
+import { InputContext } from "../../modules/context/input"
 
 function Mode() {
+  const {source} = useContext(SourceContext)
+  const {input} = useContext(InputContext)
   const {setChord} = useContext(ChordContext)
   const {setEditable} = useContext(EditableContext)
   const {setResult} = useContext(ResultContext)
   const {setMemoryView} = useContext(MemoryViewContext)
   const [intervalNum, setIntervalNum] = useState<NodeJS.Timeout>(0 as unknown as NodeJS.Timeout)
 
-  const evaluator = new Evaluator([], "") // TODO: assign input
+  const program = new Parser(source).parse()
+  const evaluator = new Evaluator(program, input)
 
   const run = () => {
     setEditable(false)
@@ -28,8 +34,6 @@ function Mode() {
       if (state.finished) {
         setChord(metaChords.READY)
         clearInterval(interval)
-        setEditable(true)
-        setMemoryView([])
         return
       }
 
@@ -44,7 +48,7 @@ function Mode() {
     setIntervalNum(interval)
   }
 
-  const abort = () => {
+  const edit = () => {
     clearInterval(intervalNum)
     setChord(metaChords.INTERRUPT)
     setMemoryView([])
@@ -62,9 +66,9 @@ function Mode() {
       </Button>
       <Button
         colorPalette="orange"
-        onClick={abort}
+        onClick={edit}
       >
-        Abort
+        Edit
       </Button>
     </HStack>
   )

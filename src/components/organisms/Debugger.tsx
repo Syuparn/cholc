@@ -33,8 +33,8 @@ function Debugger() {
               colorPalette="cyan"
             />
           </Table.Cell>
-          {memoryView.map(elem => (
-            <Table.Cell>
+          {memoryView.map((elem, i) => (
+            <Table.Cell key={i}>
               <MemoryButton
                 name={elem.address.toString()}
                 colorPalette={elem.isRefferred ? "yellow" : "cyan"}
@@ -49,8 +49,8 @@ function Debugger() {
               colorPalette="teal"
             />
           </Table.Cell>
-          {memoryView.map(elem => (
-            <Table.Cell>
+          {memoryView.map((elem, i) => (
+            <Table.Cell key={i}>
               <MemoryButton
                 name={elem.value.toString()}
                 colorPalette={elem.isRefferred ? "yellow" : "teal"}
@@ -65,8 +65,8 @@ function Debugger() {
               colorPalette="purple"
             />
           </Table.Cell>
-          {memoryView.map(elem => (
-            <Table.Cell>
+          {memoryView.map((elem, i) => (
+            <Table.Cell key={i}>
               <MemoryButton
                 name={((s) => s ? `'${s}'`: "")(toChr(elem.value))}
                 colorPalette={elem.isRefferred ? "yellow" : "purple"}
