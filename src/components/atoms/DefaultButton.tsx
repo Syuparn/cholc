@@ -20,7 +20,7 @@ function DefaultButton({ name, disabled, colorPalette, onClick }: {name: string,
 
   return (
     <Button
-      colorPalette={colorPalette} // TODO: change color when the chord is played
+      colorPalette={colorPalette}
       disabled={disabled || !editable}
       size="lg"
       fontFamily="monospace"

@@ -503,8 +503,6 @@ describe("get result of step evaluation", () => {
   })
 });
 
-// TODO: test the whole evaluation (until stop)
-
 describe("evaluate sample codes until the program finishes", () => {
   test.each`
     title               | source                           | input    | expected

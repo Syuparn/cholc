@@ -1,5 +1,3 @@
-// TODO: impl
-
 import { byteCodes, getPitch, isMajor, isMinor, keySignatureMove, Program } from "./bytecode";
 import { chordName } from "./chord";
 import { Memory } from "./memory";
