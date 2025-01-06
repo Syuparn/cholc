@@ -24,6 +24,7 @@ jobs:
 
     - name: Build frontend
       # HACK: pass env to fix link path
+      # (endpoint of GitHub pages is https://syuparn.github.io/cholc/ (not root))
       env:
         GITHUB_PAGES: true
       run: |
