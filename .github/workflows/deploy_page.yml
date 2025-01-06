@@ -1,0 +1,37 @@
+name: deploy-page
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    permissions:
+      # NOTE: give permission to push commits
+      contents: write
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Set up Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+
+    - name: Build frontend
+      # HACK: pass env to fix link path
+      env:
+        GITHUB_PAGES: true
+      run: |
+        npm install
+        npm run build
+
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./dist
