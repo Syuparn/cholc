@@ -12,7 +12,7 @@ export class Parser {
       return []
     }
 
-    const tokens = this.source.split(" ")
+    const tokens = this.source.split(/\s/)
     return tokens
       .map(t => this._encode(t))
       .filter(t => t !== byteCodes.Unknown)

@@ -117,6 +117,9 @@ describe("parse source code to byteCodes", () => {
     ${""}         | ${[]}
     ${"C"}        | ${[byteCodes.C]}
     ${"C D"}      | ${[byteCodes.C, byteCodes.D]}
+    ${"C\nD"}      | ${[byteCodes.C, byteCodes.D]}
+    ${"C\tD"}      | ${[byteCodes.C, byteCodes.D]}
+    ${"C  \nD"}      | ${[byteCodes.C, byteCodes.D]}
     ${"Am F G C"} | ${[byteCodes.AMinor, byteCodes.F, byteCodes.G, byteCodes.C]}
   `("source '$source' -> bytecode '$expected'", ({source, expected}) => {
     const parser = new Parser(source)
