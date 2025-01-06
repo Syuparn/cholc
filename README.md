@@ -146,7 +146,7 @@ For example, `C G` is evaluated in this order.
 
 Yes. Any brainf\*ck source code can be converted to a Cholc source code.
 
-Here is a operator conversion table.
+Here is an operator conversion table.
 
 |brainf\*ck|Cholc|
 |-|-|
