@@ -23,7 +23,7 @@ function Mode() {
   const program = new Parser(source).parse()
   const evaluator = new Evaluator(program, input)
 
-  const run = () => {
+  const play = () => {
     setEditable(false)
 
     const interval = setInterval(() => {
@@ -48,6 +48,26 @@ function Mode() {
     setIntervalNum(interval)
   }
 
+  const run = () => {
+    setEditable(false)
+    setTimeout(() => {
+      const maxSteps = 1 << 20
+
+      // evaluate until the end
+      for (let i = 0; i < maxSteps; i++) {
+        const state = evaluator.step()
+        if (state.finished) {
+          setMemoryView(state.memory)
+          setResult(state.output)
+          setEditable(true)
+          return
+        }
+      }
+
+      alert(`Timeout: program did not finish after step ${maxSteps}`)
+    }, 1)
+  }
+
   const edit = () => {
     clearInterval(intervalNum)
     setChord(metaChords.INTERRUPT)
@@ -60,9 +80,15 @@ function Mode() {
     <HStack>
       <Button
         colorPalette="orange"
+        onClick={play}
+      >
+        Play
+      </Button>
+      <Button
+        colorPalette="orange"
         onClick={run}
       >
-        Run
+        Run (silent)
       </Button>
       <Button
         colorPalette="orange"
