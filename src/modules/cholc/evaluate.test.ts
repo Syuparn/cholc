@@ -2,6 +2,7 @@ import { byteCodes } from "./bytecode";
 import { Evaluator } from "./evaluate";
 import { Memory } from "./memory";
 import { Parser } from "./parse";
+import { helloworld } from "./samplecode";
 import { CholcState } from "./state";
 
 describe("evaluate program", () => {
@@ -509,6 +510,7 @@ describe("evaluate sample codes until the program finishes", () => {
     ${"echo"}           | ${"v X"}                         | ${"a"}   | ${"a"}
     ${"order"}          | ${"v X C X C X"}                 | ${"a"}   | ${"abc"}
     ${"add two inputs"} | ${"C v F v Cm |: C Fm :| C X"}   | ${"#-"}  | ${"P"}
+    ${"helloworld"}     | ${helloworld}                    | ${""}    | ${"Hello, world!"}
     `("exec $title", ({source, input, expected}) => {
       const program = new Parser(source).parse()
       const evaluator = new Evaluator(program, input)

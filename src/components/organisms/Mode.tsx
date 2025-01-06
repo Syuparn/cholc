@@ -10,7 +10,6 @@ import { ResultContext } from "../../modules/context/result"
 import { Parser } from "../../modules/cholc/parse"
 import { SourceContext } from "../../modules/context/source"
 import { InputContext } from "../../modules/context/input"
-import { CholcState } from "../../modules/cholc/state"
 
 function Mode() {
   const {source} = useContext(SourceContext)
