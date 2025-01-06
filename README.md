@@ -60,6 +60,7 @@ Here are the rules of the movement.
 Example:
 
 |chords|pointer movement|
+|-|-|
 |`C C`|`0`|
 |`C G`|`+1`|
 |`C D`|`+2`|
