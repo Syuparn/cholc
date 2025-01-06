@@ -1,10 +1,13 @@
 # cholc
+[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
+[![Playground](https://img.shields.io/badge/playground-resonate%21-cyan.svg?style=flat)](https://syuparn.github.io/cholc/)
+
 A musical programming language: let's play and calculate your chord progressions!
 
 # about
 
 Cholc is an esoteric programming language made up of sequences of musical chords.
-In the playground, you can execute the source "chords" with their sweet sound!
+In the [playground](https://syuparn.github.io/cholc/), you can execute the source "chords" with their sweet sound!
 
 ![screenshot of playground](./docs/screenshot.png)
 
@@ -48,7 +51,7 @@ The movement of the pointer depends on the interval between the two chords in a 
 |strong progression|5 semitones (perfect 4th)|`G C`|`-1`|
 
 Any pair of chords moves the pointer and its movement is "how many times to add perfect fifth".
-The chord buttons in the playground (which are allocated as "circle of fifths") will help you.
+The chord buttons in the [playground](https://syuparn.github.io/cholc/) (which are allocated as "circle of fifths") will help you.
 
 ![pointer movement](./docs/pointer_movement.png)
 
