@@ -10,6 +10,7 @@ import { ResultContext } from "../../modules/context/result"
 import { Parser } from "../../modules/cholc/parse"
 import { SourceContext } from "../../modules/context/source"
 import { InputContext } from "../../modules/context/input"
+import { CholcState } from "../../modules/cholc/state"
 
 function Mode() {
   const {source} = useContext(SourceContext)
@@ -54,17 +55,20 @@ function Mode() {
       const maxSteps = 1 << 20
 
       // evaluate until the end
-      for (let i = 0; i < maxSteps; i++) {
-        const state = evaluator.step()
+      let state = evaluator.step()
+      for (let i = 1; i < maxSteps; i++) {
         if (state.finished) {
-          setMemoryView(state.memory)
-          setResult(state.output)
-          setEditable(true)
-          return
+          break
         }
+        state = evaluator.step()
       }
+      setMemoryView(state.memory)
+      setResult(state.output)
+      setEditable(true)
 
-      alert(`Timeout: program did not finish after step ${maxSteps}`)
+      if (!state.finished) {
+        alert(`Timeout: program did not finish after step ${maxSteps}`)
+      }
     }, 1)
   }
 
