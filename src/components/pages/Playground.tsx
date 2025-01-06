@@ -12,6 +12,7 @@ import { MemoryViewContext } from "../../modules/context/memoryview"
 import { MemoryView } from "../../modules/cholc/memory"
 import Result from "../organisms/Result"
 import { ResultContext } from "../../modules/context/result"
+import GitHubLink from "../organisms/GitHubLink"
 
 function Playground() {
   const [source, setSource] = useState('')
@@ -35,6 +36,7 @@ function Playground() {
                   <Source />
                   <Input />
                   <Result />
+                  <GitHubLink />
                 </ResultContext.Provider>
               </MemoryViewContext.Provider>
             </EditableContext.Provider>
