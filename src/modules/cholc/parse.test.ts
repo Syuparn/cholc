@@ -123,3 +123,16 @@ describe("parse source code to byteCodes", () => {
     expect(parser.parse()).toStrictEqual(expected)
   })
 });
+
+describe("parser ignores malformed tokens", () => {
+  test.each`
+    source         | expected
+    ${"foo"}         | ${[]}
+    ${"C foo"}        | ${[byteCodes.C]}
+    ${"foo C"}        | ${[byteCodes.C]}
+    ${"C foo foo C"}        | ${[byteCodes.C, byteCodes.C]}
+  `("source '$source' -> bytecode '$expected'", ({source, expected}) => {
+    const parser = new Parser(source)
+    expect(parser.parse()).toStrictEqual(expected)
+  })
+});

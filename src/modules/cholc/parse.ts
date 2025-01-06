@@ -13,7 +13,9 @@ export class Parser {
     }
 
     const tokens = this.source.split(" ")
-    return tokens.map((t) => this._encode(t))
+    return tokens
+      .map(t => this._encode(t))
+      .filter(t => t !== byteCodes.Unknown)
   }
 
   _encode(token: string): ByteCode {
