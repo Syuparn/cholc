@@ -5,7 +5,7 @@ function MemoryButton({ name, colorPalette }: {name: string, colorPalette: strin
     <Button
       fontFamily="monospace"
       colorPalette={colorPalette}
-      margin="-0.5em"
+      margin="-0.8em"
       padding="0"
       size="xs"
     >

@@ -8,7 +8,7 @@ import OutputButton from "../molecules/OutputButton"
 
 function Chords() {
   return (
-    <Table.Root>
+    <Table.Root width="80%">
       <Table.Body>
         <Table.Row>
           <Table.Cell>

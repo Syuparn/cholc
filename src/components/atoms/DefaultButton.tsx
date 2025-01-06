@@ -22,7 +22,7 @@ function DefaultButton({ name, disabled, colorPalette, onClick }: {name: string,
     <Button
       colorPalette={colorPalette}
       disabled={disabled || !editable}
-      size="lg"
+      size="md"
       fontFamily="monospace"
       _active={{bg: "orange"}}
       onClick={mergedOnClick}

@@ -5,7 +5,10 @@ function App() {
   return (
     <>
       <Center>
-        <VStack>
+        <VStack
+          paddingLeft="2em"
+          paddingRight="2em"
+        >
           <Heading size="5xl">
             Cholc
           </Heading>

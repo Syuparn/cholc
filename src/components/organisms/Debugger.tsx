@@ -25,7 +25,7 @@ function Debugger() {
       <Heading>
         Memory
       </Heading>
-      <Table.Root mt="-0.5em">
+      <Table.Root mt="-0.5em" width="80%">
         <Table.Row>
           <Table.Cell>
             <MemoryButton
