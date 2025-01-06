@@ -141,3 +141,20 @@ For example, `C G` is evaluated in this order.
 |:-:|:-:|:-:|
 |pointer||here|
 |value|1|1|
+
+# is this turing complete?
+
+Yes. Any brainf\*ck source code can be converted to a Cholc source code.
+
+Here is a operator conversion table.
+
+|brainf\*ck|Cholc|
+|-|-|
+|`+`|`C`|
+|`-`|`Cm`|
+|`>`|`C Cm E Em Ab Abm C Cm`|
+|`<`|`C Cm Ab Abm E Em C Cm`|
+|`[`|`\|:`|
+|`]`|`:\|`|
+|`,`|`v`|
+|`.`|`X`|
