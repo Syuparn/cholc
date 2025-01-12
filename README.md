@@ -13,13 +13,14 @@ In the [playground](https://syuparn.github.io/cholc/), you can execute the sourc
 
 ## examples
 
-- add two input values (as ascii-code)
+- [add two input values (as ascii-code)](https://syuparn.github.io/cholc/?p=a0f0myarza1)
+    - NOTE: you must set two input characters!
 
 ```cholc
 C v F v Cm |: C Fm :| C X
 ```
 
-- helloworld
+- [helloworld](https://syuparn.github.io/cholc/?p=jjjjjjjjjyfhevzyaaaaaaaajjjlqzam1ybdddddaaarzaa1yanzmm11aaa1p1cojjjjj1yfhmzt1fr1fff1ttcgxytcgxzt1ytozh1j1)
 
 ```cholc
 A A A A A A A A A
@@ -44,6 +45,15 @@ Gm X
 |: Gm Dm :|
 G X
 A X
+```
+
+- [Count up from 1 to 30](https://syuparn.github.io/cholc/?p=vvvvvvvvyoooooojzsssssssssyxhjczfffyyjv1h1qgzj1ytsezht1rz)
+
+```
+Am Am Am Am Am Am Am Am |: Dm Dm Dm Dm Dm Dm A :|
+Gbm Gbm Gbm Gbm Gbm Gbm Gbm Gbm Gbm
+|: Bm G A D :|
+F F F |: |: A Am X G X Em Gb :| A X |: Gm Gbm E :| G Gm X Fm :|
 ```
 
 # language specification
