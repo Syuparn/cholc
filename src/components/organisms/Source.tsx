@@ -1,7 +1,8 @@
-import { useContext } from "react"
+import { useCallback, useContext } from "react"
 import { SourceContext } from "../../modules/context/source"
 import { Button, Heading, HStack, Textarea, VStack } from "@chakra-ui/react"
 import { helloworld } from "../../modules/cholc/samplecode"
+import { sourceToQuery } from "../../modules/cholc/link/encode"
 
 function Source() {
   const {source, setSource} = useContext(SourceContext)
@@ -17,6 +18,16 @@ function Source() {
   const useSample = () => {
     setSource(helloworld)
   }
+
+  const copy = useCallback(async () => {
+    await navigator.clipboard.writeText(source);
+  }, [source])
+
+  const shareLink = useCallback(async () => {
+    const query = sourceToQuery(source)
+    const url = `${location.protocol}//${location.host}${location.pathname}?p=${query}`
+    await navigator.clipboard.writeText(url);
+  }, [source])
 
   return (
     <VStack width="80%">
@@ -41,6 +52,24 @@ function Source() {
           onClick={useSample}
         >
           Use sample
+        </Button>
+        <Button
+          colorPalette="teal"
+          size="2xs"
+          padding="0.5em"
+          marginTop="-0.5em"
+          onClick={copy}
+        >
+          Copy
+        </Button>
+        <Button
+          colorPalette="teal"
+          size="2xs"
+          padding="0.5em"
+          marginTop="-0.5em"
+          onClick={shareLink}
+        >
+          Share link
         </Button>
       </HStack>
       <Textarea

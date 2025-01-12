@@ -13,9 +13,18 @@ import { MemoryView } from "../../modules/cholc/memory"
 import Result from "../organisms/Result"
 import { ResultContext } from "../../modules/context/result"
 import GitHubLink from "../organisms/GitHubLink"
+import { queryToSource } from "../../modules/cholc/link/decode"
+
+function sourceFromQuery(): string {
+  const queryValue = new URL(decodeURIComponent(document.location.href)).searchParams.get("p")
+  if (queryValue === null) {
+    return ""
+  }
+  return queryToSource(queryValue)
+}
 
 function Playground() {
-  const [source, setSource] = useState('')
+  const [source, setSource] = useState(sourceFromQuery())
   const [input, setInput] = useState('')
   const [chord, setChord] = useState('')
   const [editable, setEditable] = useState(true)
