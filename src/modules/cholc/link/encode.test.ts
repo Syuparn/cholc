@@ -27,6 +27,7 @@ describe("encode then decode", () => {
   ${"Am F G C"}
   ${"C C C"}
   ${"Eb G#m"}
+  ${"|: v X :|"}
   `("source: $source", ({source}) => {
     expect(queryToSource(sourceToQuery(source))).toBe(source)
   })

@@ -44,5 +44,19 @@ function queryToCode(query: string): ByteCode {
 }
 
 export function queryToSource(query: string): string {
-  return queryToProgram(query).map(chordName).join(" ")
+  return queryToProgram(query)
+    .map((c => {
+      switch (c) {
+        case byteCodes.StartLoop:
+          return "|:"
+        case byteCodes.EndLoop:
+          return ":|"
+        case byteCodes.Input:
+          return "v"
+        case byteCodes.Output:
+          return "X"
+      }
+      return chordName(c)
+    }))
+    .join(" ")
 }
