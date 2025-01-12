@@ -1,7 +1,6 @@
 import { Button, HStack } from "@chakra-ui/react"
 import { useContext, useState } from "react"
 import { ChordContext } from "../../modules/context/chord"
-import { intervalMS } from "../../modules/sound/interval"
 import { Evaluator } from "../../modules/cholc/evaluate"
 import { metaChords } from "../../modules/sound/chords"
 import { EditableContext } from "../../modules/context/editable"
@@ -11,10 +10,12 @@ import { Parser } from "../../modules/cholc/parse"
 import { SourceContext } from "../../modules/context/source"
 import { InputContext } from "../../modules/context/input"
 import { RxPencil1, RxSpeakerLoud, RxTrackNext } from "react-icons/rx"
+import { BPMContext } from "../../modules/context/bpm"
 
 function Mode() {
   const {source} = useContext(SourceContext)
   const {input} = useContext(InputContext)
+  const {bpm} = useContext(BPMContext)
   const {setChord} = useContext(ChordContext)
   const {setEditable} = useContext(EditableContext)
   const {setResult} = useContext(ResultContext)
@@ -26,6 +27,7 @@ function Mode() {
 
   const play = () => {
     setEditable(false)
+    const intervalMS = 60 * 1000 / bpm
 
     const interval = setInterval(() => {
       const state = evaluator.step()

@@ -14,6 +14,11 @@ import Result from "../organisms/Result"
 import { ResultContext } from "../../modules/context/result"
 import GitHubLink from "../organisms/GitHubLink"
 import { queryToSource } from "../../modules/cholc/link/decode"
+import Settings from "../organisms/Settings"
+import { SynthContext } from "../../modules/context/synth"
+import { synth as makeSynth } from '../../modules/sound/synth';
+import { BPMContext } from "../../modules/context/bpm"
+import { bpmParam, volumeParam } from "../../modules/sound/params"
 
 function sourceFromQuery(): string {
   const queryValue = new URL(decodeURIComponent(document.location.href)).searchParams.get("p")
@@ -30,6 +35,9 @@ function Playground() {
   const [editable, setEditable] = useState(true)
   const [memoryView, setMemoryView] = useState<MemoryView>([])
   const [result, setResult] = useState('')
+  // NOTE: set small init value to avoid blasting
+  const [synth, setSynth] = useState(makeSynth(volumeParam.default))
+  const [bpm, setBPM] = useState<number>(bpmParam.default)
 
   return (
     <>
@@ -39,13 +47,18 @@ function Playground() {
             <EditableContext.Provider value={{editable, setEditable: setEditable}}>
               <MemoryViewContext.Provider value={{memoryView, setMemoryView}}>
                 <ResultContext.Provider value={{result, setResult}}>
-                  <Chords />
-                  <Mode />
-                  <Debugger />
-                  <Source />
-                  <Input />
-                  <Result />
-                  <GitHubLink />
+                  <SynthContext.Provider value={{synth, setSynth}}>
+                    <BPMContext.Provider value={{bpm, setBPM}}>
+                      <Chords />
+                      <Mode />
+                      <Debugger />
+                      <Source />
+                      <Input />
+                      <Result />
+                      <Settings />
+                      <GitHubLink />
+                    </BPMContext.Provider>
+                  </SynthContext.Provider>
                 </ResultContext.Provider>
               </MemoryViewContext.Provider>
             </EditableContext.Provider>
