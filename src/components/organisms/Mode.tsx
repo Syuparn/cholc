@@ -10,6 +10,7 @@ import { ResultContext } from "../../modules/context/result"
 import { Parser } from "../../modules/cholc/parse"
 import { SourceContext } from "../../modules/context/source"
 import { InputContext } from "../../modules/context/input"
+import { RxPencil1, RxSpeakerLoud, RxTrackNext } from "react-icons/rx"
 
 function Mode() {
   const {source} = useContext(SourceContext)
@@ -85,19 +86,19 @@ function Mode() {
         colorPalette="orange"
         onClick={play}
       >
-        Play
+        <RxSpeakerLoud /> Play
       </Button>
       <Button
         colorPalette="orange"
         onClick={run}
       >
-        Run (silent)
+        <RxTrackNext /> Run (silent)
       </Button>
       <Button
         colorPalette="orange"
         onClick={edit}
       >
-        Edit
+        <RxPencil1 /> Edit
       </Button>
     </HStack>
   )

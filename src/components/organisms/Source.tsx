@@ -3,6 +3,7 @@ import { SourceContext } from "../../modules/context/source"
 import { Button, Heading, HStack, Textarea, VStack } from "@chakra-ui/react"
 import { helloworld } from "../../modules/cholc/samplecode"
 import { sourceToQuery } from "../../modules/cholc/link/encode"
+import { RxClipboard, RxShare1, RxTrash } from "react-icons/rx"
 
 function Source() {
   const {source, setSource} = useContext(SourceContext)
@@ -40,15 +41,6 @@ function Source() {
           size="2xs"
           padding="0.5em"
           marginTop="-0.5em"
-          onClick={deleteSource}
-        >
-          Delete
-        </Button>
-        <Button
-          colorPalette="teal"
-          size="2xs"
-          padding="0.5em"
-          marginTop="-0.5em"
           onClick={useSample}
         >
           Use sample
@@ -60,7 +52,7 @@ function Source() {
           marginTop="-0.5em"
           onClick={copy}
         >
-          Copy
+          <RxClipboard /> Copy
         </Button>
         <Button
           colorPalette="teal"
@@ -69,7 +61,16 @@ function Source() {
           marginTop="-0.5em"
           onClick={shareLink}
         >
-          Share link
+          <RxShare1 /> Share link
+        </Button>
+        <Button
+          colorPalette="teal"
+          size="2xs"
+          padding="0.5em"
+          marginTop="-0.5em"
+          onClick={deleteSource}
+        >
+          <RxTrash /> Delete
         </Button>
       </HStack>
       <Textarea

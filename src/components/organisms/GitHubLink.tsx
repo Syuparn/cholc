@@ -1,4 +1,5 @@
 import { HStack, Link } from "@chakra-ui/react";
+import { RxGithubLogo } from "react-icons/rx";
 
 function GitHubLink() {
   return (
@@ -8,7 +9,7 @@ function GitHubLink() {
         // TODO: replace with `isExternal={true}` after it is supported 
         target="_blank" rel="noopener noreferrer"
       >
-        About Cholc (GitHub)
+        <RxGithubLogo />About Cholc (GitHub)
       </Link>
     </HStack>
   )
