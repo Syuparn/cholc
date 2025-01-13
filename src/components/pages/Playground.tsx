@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { SourceContext } from "../../modules/context/source"
 import Chords from "../organisms/Chords"
 import Source from "../organisms/Source"
@@ -35,8 +35,9 @@ function Playground() {
   const [editable, setEditable] = useState(true)
   const [memoryView, setMemoryView] = useState<MemoryView>([])
   const [result, setResult] = useState('')
-  // NOTE: set small init value to avoid blasting
-  const [synth, setSynth] = useState(makeSynth(volumeParam.default))
+  // NOTE: avoid re-rendering
+  const defaultSynth = useMemo(() => makeSynth(volumeParam.default), [])
+  const [synth, setSynth] = useState(defaultSynth)
   const [bpm, setBPM] = useState<number>(bpmParam.default)
 
   return (

@@ -7,5 +7,5 @@ export const volumeParam = {
 export const bpmParam = {
   min: 40,
   default: 150,
-  max: 240
+  max: 600
 } as const

@@ -52,6 +52,7 @@ function Settings() {
         onValueChange={changeBPM}
         min={bpmParam.min}
         max={bpmParam.max}
+        step={5}
         disabled={!editable}
       />
     </VStack>
