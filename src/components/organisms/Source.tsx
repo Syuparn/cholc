@@ -1,12 +1,13 @@
 import { useCallback, useContext } from "react"
 import { SourceContext } from "../../modules/context/source"
-import { Button, Heading, HStack, Textarea, VStack } from "@chakra-ui/react"
+import { Button, Heading, HStack, Stack, Text, Textarea, VStack } from "@chakra-ui/react"
 import { helloworld } from "../../modules/cholc/samplecode"
 import { sourceToQuery } from "../../modules/cholc/link/encode"
 import { RxClipboard, RxShare1, RxTrash } from "react-icons/rx"
 
 function Source() {
   const {source, setSource} = useContext(SourceContext)
+  const nChords = source ? source.split(/\s+/).length : 0
 
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setSource(e.target.value)
@@ -73,13 +74,20 @@ function Source() {
           <RxTrash /> Delete
         </Button>
       </HStack>
+      <Stack width="100%">
       <Textarea
         fontFamily="monospace"
         fontSize="lg"
         rows={1}
         value={source}
         onChange={onChange}
+        width="100%"
       />
+      <Text textAlign="left" fontSize="xs">
+        {`${nChords} chords`}
+      </Text>
+      </Stack>
+
     </VStack>
   )
 }
