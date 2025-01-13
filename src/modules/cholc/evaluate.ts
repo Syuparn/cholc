@@ -67,20 +67,25 @@ export class Evaluator {
   }
 
   private handleLoop() {
-    if (this.program[this.pc] === byteCodes.StartLoop) {
-      if (this.memory.get() === 0) {
-        this.jumpToEndLoop()
-      } else {
-        // simply skip this code
-        this.pc++
+    while (true) {
+      if (this.program[this.pc] === byteCodes.StartLoop) {
+        if (this.memory.get() === 0) {
+          this.jumpToEndLoop()
+        } else {
+          // simply skip this code
+          this.pc++
+        }
+        continue
+      } else if (this.program[this.pc] === byteCodes.EndLoop) {
+        if (this.memory.get() !== 0) {
+          this.jumpToStartLoop()
+        } else {
+          // simply skip this code
+          this.pc++
+        }
+        continue
       }
-    } else if (this.program[this.pc] === byteCodes.EndLoop) {
-      if (this.memory.get() !== 0) {
-        this.jumpToStartLoop()
-      } else {
-        // simply skip this code
-        this.pc++
-      }
+      break
     }
   }
 

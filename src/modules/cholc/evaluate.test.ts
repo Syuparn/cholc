@@ -148,6 +148,89 @@ describe("evaluate program", () => {
       pc: 3, // jump to code after startloop
     })
   })
+
+  test("nested startloop", () => {
+    const program = [
+      byteCodes.C,
+      byteCodes.StartLoop,
+      byteCodes.StartLoop,
+      byteCodes.G,
+      byteCodes.EndLoop,
+      byteCodes.EndLoop,
+      byteCodes.F,
+    ]
+    const evaluator = new Evaluator(program, "")
+    evaluator.step() // [C]
+    evaluator.step()
+
+    expect(evaluator.dump()).toStrictEqual({
+      memory: Memory.createForTest({
+        pointer: 1,
+        memory: {
+          "0": 1,
+          "1": 1,
+        },
+      }),
+      pc: 4, // in inner loop
+    })
+  })
+
+  test("nested endloop", () => {
+    const program = [
+      byteCodes.C,
+      byteCodes.StartLoop,
+      byteCodes.StartLoop,
+      byteCodes.CMinor,
+      byteCodes.EndLoop,
+      byteCodes.EndLoop,
+      byteCodes.F,
+      byteCodes.G,
+    ]
+    const evaluator = new Evaluator(program, "")
+    evaluator.step() // [C]
+    evaluator.step() // [StartLoop. StartLoop, CMinor]
+    evaluator.step()
+
+    expect(evaluator.dump()).toStrictEqual({
+      memory: Memory.createForTest({
+        pointer: -1,
+        memory: {
+          "-1": 1,
+          "0": 0,
+        },
+      }),
+      pc: 7, // out of outer loop
+    })
+  })
+
+  test("endloop then startloop", () => {
+    const program = [
+      byteCodes.C,
+      byteCodes.StartLoop,
+      byteCodes.CMinor,
+      byteCodes.EndLoop,
+      byteCodes.StartLoop,
+      byteCodes.F,
+      byteCodes.EndLoop,
+      byteCodes.G,
+      byteCodes.AMinor,
+    ]
+    const evaluator = new Evaluator(program, "")
+    evaluator.step() // [C]
+    evaluator.step() // [StartLoop. CMinor]
+    evaluator.step() // [EndLoop. StartLoop, G]
+
+    expect(evaluator.dump()).toStrictEqual({
+      memory: Memory.createForTest({
+        pointer: 1,
+        memory: {
+          "0": 0,
+          "1": 1,
+        },
+      }),
+      pc: 8, // after second endLoop
+    })
+  })
 });
 
 describe("move pointer by pitch interval", () => {
