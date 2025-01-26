@@ -48,13 +48,13 @@ G X
 A X
 ```
 
-- [Count up from 1 to 30](https://syuparn.github.io/cholc/?p=vvvvvvvvyoooooojzsssssssssyxhjczfffyyjv1h1qgzj1ytsezht1rz)
+- [Count up from 1 to 30](https://syuparn.github.io/cholc/?p=ffffffffyaaaaaarzoooooooooyikhmzvvvyyht1fk1czh1yworzkw1jz)
 
 ```
-Am Am Am Am Am Am Am Am |: Dm Dm Dm Dm Dm Dm A :|
-Gbm Gbm Gbm Gbm Gbm Gbm Gbm Gbm Gbm
-|: Bm G A D :|
-F F F |: |: A Am X G X Em Gb :| A X |: Gm Gbm E :| G Gm X Fm :|
+F F F F F F F F |: C C C C C C Fm :|
+Dm Dm Dm Dm Dm Dm Dm Dm Dm
+|: Ab Bb G Cm :|
+Am Am Am |: |: G Gm X F Bb X D :| G X |: Bbm Dm Fm :| Bb Bbm X A :|
 ```
 
 # language specification
