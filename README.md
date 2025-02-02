@@ -1,6 +1,7 @@
 # cholc
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
 [![Playground](https://img.shields.io/badge/playground-resonate%21-cyan.svg?style=flat)](https://syuparn.github.io/cholc/)
+[![Esolang wiki](https://img.shields.io/badge/Esolang_wiki-green)](https://esolangs.org/wiki/Cholc)
 
 A musical programming language: let's play and calculate your chord progressions!
 
