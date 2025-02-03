@@ -40,7 +40,7 @@ function Mode() {
         return
       }
 
-      if (state.chord === "X") {
+      if (state.chord === "X" || state.chord === "v") {
         setChord(metaChords.REST)
         return
       }

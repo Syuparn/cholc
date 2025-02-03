@@ -27,7 +27,6 @@ export class Evaluator {
   }
 
   step(): CholcState {
-    this.inputChar()
     this.handleLoop()
 
     if (this.pc >= this.program.length) {
@@ -44,6 +43,7 @@ export class Evaluator {
     this.updateMemory()
 
     this.outputChar()
+    this.inputChar()
 
     this.pc++
 
@@ -56,13 +56,10 @@ export class Evaluator {
   }
 
   private inputChar() {
-    // NOTE: unlike output(`X`), input(`v`) is consumed instantly and the next code is executed within the step
-    while (this.program[this.pc] === byteCodes.Input) {
+    if (this.program[this.pc] === byteCodes.Input) {
       const charCode = this.inputCnt < this.input.length ? this.input.charCodeAt(this.inputCnt) : 0
       this.memory.set(charCode)
-
       this.inputCnt++
-      this.pc++
     }
   }
 
