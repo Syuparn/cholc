@@ -170,3 +170,17 @@ Here is an operator conversion table.
 |`]`|`:\|`|
 |`,`|`v`|
 |`.`|`X`|
+
+# development
+
+- test
+
+```bash
+npm run test
+```
+
+- run locally
+
+```
+npm run dev
+```

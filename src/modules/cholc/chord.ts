@@ -58,13 +58,13 @@ export function chordName(code: ByteCode): string {
     // rest
     case byteCodes.Output:
       return "X"
-    
+    case byteCodes.Input:
+      return "v"
+
     // other special codes
     case byteCodes.StartLoop:
       return "unknown"
     case byteCodes.EndLoop:
-      return "unknown"
-    case byteCodes.Input:
       return "unknown"
     case byteCodes.Unknown:
       return "unknown"
